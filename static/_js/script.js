@@ -84,7 +84,7 @@ function initList() {
 }
 
 function appendToList(id, text, due) {
-	$("#todo-list").append("<li id=\"item"+id+"\"><span class=\"todo-title\">"+text+"</span><span class=\"todo-due\">"+{{ todos[0]['due'] }}+"</span><button class=\"todo-list-remove\">remove</button></li>");
+	$("#todo-list").append("<li id=\"item"+id+"\"><span class=\"todo-title\">"+text+"</span><span class=\"todo-due\">"+due+"</span><button class=\"todo-list-remove\">remove</button></li>");
 }
 
 function supports_html5_storage() {
