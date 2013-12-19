@@ -7,6 +7,24 @@ $(document).ready(function() {
 	$("#todo-form").submit( function(event) {
 		event.preventDefault();
 
+		var t = $("input:nth-child(1)").val();
+		var d = $("input:nth-child(2)").val();
+		console.log(t);
+		console.log(d);
+		var data = {'title': t, 'due': d};
+
+		$.ajax({
+		  type: "POST",
+		  url: '/add',
+		  data: data,
+		  success: function(data) {
+		  	appendToList(data['new_item_id'], data['title'], data['due']);
+		  	console.log(data);
+		  },
+		  dataType: 'json'
+		});
+
+		/*
 		if ($("input:first").val() != '') {
 			localStorage[index] = $("input:first").val();
 			$("#todo-list").append("<li>"+$( "input:first" ).val()+"<button class=\"todo-list-remove\">remove</button></li>");
@@ -18,10 +36,14 @@ $(document).ready(function() {
 		} else {
 			$("input:first").css("border-color", "#f66");
 		}
+		*/
 	});	
 	$('#todo-list').on('click', 'button', function(event){ 
 		$(event.target.parentElement).slideUp(); 
 	});
+
+	/* setup jquery datepicker */
+	$( "#todo-form-due" ).datepicker("option", "dateFormat", "d MM, y");
 
 	/* Try to get and print geo-location */
     if (navigator.geolocation) {
@@ -29,8 +51,6 @@ $(document).ready(function() {
     	function success(pos) {
     		var mapLat = pos.coords.latitude;
     		var mapLong = pos.coords.longitude;
-    		//google.maps.event.addDomListener(window, 'load', initialize(37.869154, -122.290768, "map-cafe"));
-    		//google.maps.event.addDomListener(window, 'load', initialize(mapLat, mapLong, "map-user"));
     		console.log("current position: ("+mapLat+" , "+mapLong+")");
     	};
     
@@ -45,9 +65,26 @@ $(document).ready(function() {
 });
 
 function initList() {
+	/*
 	$.each(localStorage, function(index, val) {
-		$("#todo-list").append("<li>"+val+"<button class=\"todo-list-remove\">remove</button></li>");
+		appendToList(val);
 	});
+	
+	$.ajax({
+	  type: "GET",
+	  url: '/',
+	  data: data,
+	  success: function(data) {
+	  	appendToList(data['new_item_id'], data['title']);
+	  	console.log(data);
+	  },
+	  dataType: 'json'
+	});
+	*/
+}
+
+function appendToList(id, text, due) {
+	$("#todo-list").append("<li id=\"item"+id+"\"><span class=\"todo-title\">"+text+"</span><span class=\"todo-due\">"+{{ todos[0]['due'] }}+"</span><button class=\"todo-list-remove\">remove</button></li>");
 }
 
 function supports_html5_storage() {

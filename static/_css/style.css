@@ -27,6 +27,11 @@ li:hover {
 	width: 100%;
 }
 
+span.todo-due {
+	float: right;
+	text-decoration: italic;
+}
+
 input {
 	font-size: 1em;
 }
